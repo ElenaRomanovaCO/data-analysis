@@ -1,0 +1,229 @@
+1. Check if gcloud is installed:
+gcloud --version
+If not installed, download from: https://cloud.google.com/sdk/docs/install-sdk#windows
+Run the installer and restart VSCode
+Result:
+(.venv) PS C:\Users\rev19\PycharmProjects\colledge> gcloud --version
+Google Cloud SDK 518.0.0
+beta 2025.04.11
+bq 2.1.15
+core 2025.04.11
+gcloud-crc32c 1.0.0
+gsutil 5.33
+Updates are available for some Google Cloud CLI components.  To install them,    
+please run:
+  $ gcloud components update
+
+2. In VSCode terminal, run:
+bash  gcloud auth login
+You are now logged in as [rev1982usa@gmail.com].
+Your current project is [adk-bot-457413].  You can change this setting by running:
+  $ gcloud config set project PROJECT_ID
+
+
+3. Verify authentication:
+bash   gcloud auth list
+Credentialed Accounts
+ACTIVE  ACCOUNT
+        eromanova115@gmail.com
+*       rev1982usa@gmail.com
+
+To set the active account, run:
+    $ gcloud config set account `ACCOUNT`
+
+4. List your Google Cloud projects:
+bash gcloud projects list    
+(.venv) PS C:\Users\rev19\PycharmProjects\colledge> gcloud projects list  
+PROJECT_ID                  NAME              PROJECT_NUMBER
+adk-bot-457413              adk-bot           618956939519
+bigquerypoc-453814          BigQueryPOC       402796691629
+durable-firefly-458522-h9   video-processing  912997180407
+gen-lang-client-0008996926  Gemini API        417446145949
+round-office-453813-n5      My First Project  1086946041886
+
+5. Set your project (replace PROJECT_ID with your actual project ID):
+bash gcloud config set project adk-bot-457413 
+PS C:\Users\rev19\PycharmProjects\colledge> gcloud config set project adk-bot-457413
+Updated property [core/project].
+
+6. Test BigQuery access:
+bash bq ls
+
+don't forget to run poetry env activate
+
+poetry env list
+poetry env use <environment-name>
+poetry install
+
+poetry add google-cloud-bigquery - if it's not there
+poetry run python -c "from google.cloud import bigquery; print('BQ client works')"
+gcloud components updatey
+
+ 7. Verify BigQuery API is Enabled
+bashgcloud services list --enabled --filter="name:bigquery"
+
+
+8. If BigQuery isn't enabled:
+bashgcloud services enable bigquery.googleapis.com
+
+PS C:\Users\rev19\PycharmProjects\colledge> gcloud services list --enabled --filter="name:bigquery"
+WARNING: --filter : operator evaluation is changing for consistency across Google APIs.  name:bigquery currently matches but will not match in the near future.  Run `gcloud topic filters` for details.
+NAME                                TITLE
+bigquery.googleapis.com             BigQuery API
+bigqueryconnection.googleapis.com   BigQuery Connection API
+bigquerydatapolicy.googleapis.com   BigQuery Data Policy API
+bigquerymigration.googleapis.com    BigQuery Migration API
+bigqueryreservation.googleapis.com  BigQuery Reservation API
+bigquerystorage.googleapis.com      BigQuery Storage API
+
+
+*** poetry --version
+if not: pip install poetry 
+
+*** poetry install
+PS C:\Users\rev19\PycharmProjects\colledge\ADK\data-science> poetry install
+Creating virtualenv data-science-6H8o3nMZ-py3.12 in C:\Users\rev19\AppData\Local\pypoetry\Cache\virtualenvs
+
+*** Activate the Poetry Shell:**
+
+    ```bash
+    poetry env activate
+PS C:\Users\rev19\PycharmProjects\colledge\ADK\data-science> poetry env activate
+& "C:\Users\rev19\AppData\Local\pypoetry\Cache\virtualenvs\data-science-6H8o3nMZ-py3.12\Scripts\activate.ps1"
+to check:
+PS C:\Users\rev19\PycharmProjects\colledge\ADK\data-science> poetry env list
+data-science-6H8o3nMZ-py3.12 (Activated)
+
+
+***
+**Set up Environment Variables:**
+    Rename the file ".env.example" to ".env"
+    Fill the below values:
+
+    ```bash
+    # Choose Model Backend: 0 -> ML Dev, 1 -> Vertex
+    GOOGLE_GENAI_USE_VERTEXAI=1
+
+    # ML Dev backend config. Fill if using Ml Dev backend.
+    GOOGLE_API_KEY='YOUR_VALUE_HERE'
+
+    # Vertex backend config
+    GOOGLE_CLOUD_PROJECT='YOUR_VALUE_HERE'
+    GOOGLE_CLOUD_LOCATION='YOUR_VALUE_HERE'
+
+CLI:
+Google Cloud Project ID
+bash  gcloud config get-value project
+Google Cloud Location (Region)
+List available regions:
+bash  gcloud compute regions list
+Set/get current region:
+bash  gcloud config get-value compute/region
+---
+Get Google API Key (for ML Dev backend)
+Cannot get from CLI - must create in Google AI Studio:
+Go to: https://aistudio.google.com/app/apikey
+Click "Create API Key"
+Copy the key
+---
+Verify BigQuery Project
+bash  gcloud config get-value project
+
+*** 
+Split dataset steps:
+poetry add pandas scikit-learn
+python split_dataset.py
+
+adjusting bq setup for my dataset:
+Here are several ways to explore what's in that Google Cloud Storage bucket:
+Method 1: Using gsutil (Command Line)
+List top-level contents:
+gcloud storage ls gs://cloud-samples-data/adk-samples/data-science/bqml
+
+*** Creating RAG corpus 
+python reference_guide_RAG.py 
+---
+C:\Users\rev19\PycharmProjects\colledge\ADK\data-science\.env
+Creating the corpus.
+BQML_RAG_CORPUS_NAME 'projects/618956939519/locations/us-central1/ragCorpora/4611686018427387904' written to C:\Users\rev19\PycharmProjects\colledge\ADK\data-science\.env
+Corpus name: projects/618956939519/locations/us-central1/ragCorpora/4611686018427387904
+Importing files to corpus: projects/618956939519/locations/us-central1/ragCorpora/4611686018427387904
+Files imported to corpus: projects/618956939519/locations/us-central1/ragCorpora/4611686018427387904
+
+***
+after adding files for taco sales running
+
+ ```bash
+        python data_science/utils/create_bq_table.py
+
+        ```
+
+python create_bq_table.py
+
+cd ..\..
+
+
+PS C:\Users\rev19\PycharmProjects\colledge\ADK\data-science> python data_science/utils/create_bq_table.py
+C:\Users\rev19\PycharmProjects\colledge\ADK\data-science\.env
+Current working directory: C:\Users\rev19\PycharmProjects\colledge\ADK\data-science
+Creating dataset.
+Dataset adk-bot-457413.forecasting_taco_sales already exists
+Loading train table.
+Loaded 800 rows into forecasting_taco_sales.train
+Loading test table.
+Loaded 200 rows into forecasting_taco_sales.test
+PS C:\Users\rev19\PycharmProjects\colledge\ADK\data-science>
+
+***
+poetry run adk run data_science
+
+
+error
+poetry add deprecated
+PS C:\Users\rev19\PycharmProjects\colledge\ADK\data-science> poetry add deprecated
+Using version ^1.2.18 for deprecated
+
+Updating dependencies
+Resolving dependencies... (1.5s)
+
+Package operations: 2 installs, 0 updates, 0 removals
+
+  - Installing wrapt (1.17.2)
+  - Installing deprecated (1.2.18)
+
+Writing lock file
+
+poetry run adk run data_science
+
+AttributeError: module 'data_science' has no attribute 'agent'
+PS C:\Users\rev19\PycharmProjects\colledge\ADK\data-science> poetry run python -c "import data_science; print(hasattr(data_science, 'agent'))"
+False
+
+added to root init.py:
+"""
+import os
+
+from . import agent
+from .agent import root_agent
+
+__all__ = ["agent", "root_agent"]
+"""
+
+PS C:\Users\rev19\PycharmProjects\colledge\ADK\data-science> poetry run python -c "import data_science; print(dir(data_science))"
+['__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__']
+
+poetry run python -c "from data_science import agent"
+
+PS C:\Users\rev19\PycharmProjects\colledge\ADK\data-science> poetry run python -c "import data_science; print('agent' in dir(data_science)); print(hasattr(data_science, 'agent'))"
+False
+False
+PS C:\Users\rev19\PycharmProjects\colledge\ADK\data-science> 
+
+
+poetry run python -c "import data_science"
+
+
+
+*** TESTING ***
+
+"How does pricing affect tip amounts across different locations?"
